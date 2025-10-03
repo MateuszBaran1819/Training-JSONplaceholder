@@ -15,14 +15,7 @@ struct Post {
 /// information to .json file
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let post_val: Vec<Post> = reqwest::get("https://jsonplaceholder.typicode.com/posts")
-        .await?
-        .json()
-        .await?;
-    let _ = save_post(post_val);
-    //println!("Pobrano {} postow", Post_val.len());
-
-    Ok(())
+    read_and_save_posts().await
 }
 ///function to read vector which hold the data from server
 /// in the for loop we will create files as many as is in the buffer
@@ -37,6 +30,17 @@ fn save_post(tab: Vec<Post>) -> Result<(), std::io::Error> {
         let mut file = File::create(file_name)?;
         file.write_all(json.as_bytes())?;
     }
+    Ok(())
+}
+
+/// helping function because function with #[tokio::main] are hard to tests
+/// here we read posts, and save to required files name
+async fn read_and_save_posts() -> Result<(), Box<dyn std::error::Error>> {
+    let post_val: Vec<Post> = reqwest::get("https://jsonplaceholder.typicode.com/posts")
+        .await?
+        .json()
+        .await?;
+    save_post(post_val)?;
     Ok(())
 }
 
@@ -93,5 +97,20 @@ mod tests {
             assert_eq!(deserialized.id, post.id);
             assert_eq!(deserialized.title, post.title);
         }
+    }
+    #[tokio::test]
+    async fn read_and_save_posts_100_data_files() {
+        let dir = "JSON_files";
+        cleanup_dir(dir);
+        read_and_save_posts()
+            .await
+            .expect("error in downloading the data");
+
+        let files_count = std::fs::read_dir(dir).unwrap().count();
+        assert_eq!(
+            files_count, 100,
+            "expect 100 JSON files, found {}",
+            files_count
+        );
     }
 }
