@@ -13,6 +13,8 @@ Zadanie powinno mieć formę mini projektu dla klienta (MVP)."
    -cargo run
 
 **----------------------------------------------------------------------**
+
 **Warning!!!!!!!!!!**                                                    
 All posts are in JSON_files location - to increase clean on the project
+
 **----------------------------------------------------------------------**
