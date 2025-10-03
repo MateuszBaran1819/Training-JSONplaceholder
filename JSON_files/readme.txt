@@ -1,0 +1,1 @@
+this folder will be ampty on the repo. This folder is used to save the post files in Json file. Will be added to gitignore file
