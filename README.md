@@ -9,7 +9,9 @@ Zadanie powinno mieć formę mini projektu dla klienta (MVP)."
 ## Steps to Run the project:
 1. Clone the repository
 2. run following command:
+   
    -cargo build
+   
    -cargo run
 
 **----------------------------------------------------------------------**
