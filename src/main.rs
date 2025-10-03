@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use std::fs::File;
 use std::io::Write;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 struct Post {
     userId: i32, //warning in the compilation - name came from jsonplacecholder
     id: i32,
@@ -62,13 +62,13 @@ mod tests {
         // created example posts
         let posts = vec![
             Post {
-                user_id: 1,
+                userId: 1,
                 id: 101,
                 title: "Test1".to_string(),
                 body: "Body1".to_string(),
             },
             Post {
-                user_id: 2,
+                userId: 2,
                 id: 102,
                 title: "Test2".to_string(),
                 body: "Body2".to_string(),
@@ -83,7 +83,7 @@ mod tests {
             let file_path = format!("{}/{}.json", dir, post.id);
             assert!(
                 Path::new(&file_path).exists(),
-                "Plik {} powinien istnieć",
+                "File {} should exist",
                 file_path
             );
 
