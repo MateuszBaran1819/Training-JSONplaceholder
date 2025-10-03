@@ -27,7 +27,7 @@ fn save_post(tab: Vec<Post>) -> Result<(), std::io::Error> {
 
     for post in &tab {
         let json = serde_json::to_string_pretty(post).unwrap();
-        let file_name = format!("{}/post_{}.json", dir, post.id);
+        let file_name = format!("{}/{}.json", dir, post.id);
         let mut file = File::create(file_name)?;
         file.write_all(json.as_bytes())?;
     }
